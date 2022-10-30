@@ -9,7 +9,7 @@ public static class DataLayerRegistration
     public static IServiceCollection AddDataLayer(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString("SavePets")));
+            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"), x => x.UseNetTopologySuite()));
 
         return services;
     }
