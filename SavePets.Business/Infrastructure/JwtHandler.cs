@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using SavePets.Business.Interfaces;
 using SavePets.Data.Entities.Identity;
 
 namespace SavePets.Business.Infrastructure
@@ -18,9 +13,9 @@ namespace SavePets.Business.Infrastructure
         private readonly IConfigurationSection _jwtSettings;
         private readonly UserManager<User> _userManager;
 
-        public JwtHandler(IConfigurationSection jwtSettings, UserManager<User> userManager)
+        public JwtHandler(IConfiguration configuration, UserManager<User> userManager)
         {
-            _jwtSettings = jwtSettings;
+            _jwtSettings = configuration.GetSection("Jwt");
             _userManager = userManager;
         }
 

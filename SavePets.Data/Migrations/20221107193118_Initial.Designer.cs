@@ -13,8 +13,8 @@ using SavePets.Data;
 namespace SavePets.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221105194219_Fix3")]
-    partial class Fix3
+    [Migration("20221107193118_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -269,14 +269,6 @@ namespace SavePets.Data.Migrations
                     b.Property<string>("NormalizedName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("RoleCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RoleName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

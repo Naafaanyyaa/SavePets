@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using SavePets.Business.Interfaces;
 using SavePets.Business.Models.Enums;
 using SavePets.Business.Models.Requests;
 using SavePets.Business.Models.Response;
-using SavePets.Data;
 using SavePets.Data.Entities.Identity;
 
 namespace SavePets.Business.Services
@@ -20,12 +14,10 @@ namespace SavePets.Business.Services
 
         private readonly IMapper _mapper;
         private readonly UserManager<User> _userManager;
-        private ApplicationDbContext _context;
         private readonly ILogger<RegisterService> _logger;
 
-        public RegisterService(IMapper mapper, UserManager<User> userManager, ApplicationDbContext context, ILogger<RegisterService> logger)
+        public RegisterService(IMapper mapper, UserManager<User> userManager, ILogger<RegisterService> logger)
         {
-            _context = context;
             _mapper = mapper;
             _logger = logger;
             _userManager = userManager;
@@ -67,10 +59,6 @@ namespace SavePets.Business.Services
 
             if (identityResult.Errors.Any())
                 throw new Exception(identityResult.Errors.ToArray().ToString());
-
-            await _context.Users.AddAsync(user);
-
-            //await _context.SaveChangesAsync();
 
             _logger.LogInformation("User {UserId} has been successfully registered", user.Id);
 

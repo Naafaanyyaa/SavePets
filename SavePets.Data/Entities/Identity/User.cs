@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using SavePets.Data.Entities.Abstract;
 
 namespace SavePets.Data.Entities.Identity;
 
