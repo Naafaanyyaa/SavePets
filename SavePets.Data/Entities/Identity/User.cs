@@ -1,0 +1,15 @@
+﻿using Microsoft.AspNetCore.Identity;
+using SavePets.Data.Entities.Abstract;
+
+namespace SavePets.Data.Entities.Identity;
+
+public class User : IdentityUser
+{
+    public bool IsBanned { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string? SubscriptionID { get; set; }
+    public Subscription? Subscription { get; set; }
+    public List<UserRole> UserRoles { get; set; }
+    public List<UserAnimal> UserAnimals { get; set; }
+}

@@ -1,17 +1,19 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SavePets.Data.Entities;
+using SavePets.Data.Entities.Identity;
 
 namespace SavePets.Data;
 
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext : IdentityDbContext<User, Role, string, IdentityUserClaim<string>, UserRole,
+    IdentityUserLogin<string>, IdentityRoleClaim<string>, IdentityUserToken<string>>
 {
     public DbSet<Animal> Animals { get; set; }
     public DbSet<Contacts> Contacts { get; set; }
     public DbSet<Photo> Photo { get; set; }
-    public DbSet<Role> Roles { get; set; }
     public DbSet<Subscription> Subscriptions { get; set; }
     public DbSet<Tag> Tags { get; set; }
-    public DbSet<User> Users { get; set; }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
@@ -63,12 +65,20 @@ public class ApplicationDbContext : DbContext
             .HasForeignKey(t => t.PhotoId)
             .HasPrincipalKey(t => t.Id)
             .OnDelete(DeleteBehavior.Cascade);
+
+
         modelBuilder
             .Entity<Role>()
-            .HasOne(t => t.User)
+            .HasMany(t => t.UserRoles)
             .WithOne(t => t.Role)
-            .HasForeignKey<User>(t => t.RoleID)
-            .OnDelete(DeleteBehavior.Cascade);
+            .HasForeignKey(t => t.RoleId)
+            .IsRequired();
+        modelBuilder
+            .Entity<User>()
+            .HasMany(t => t.UserRoles)
+            .WithOne(t => t.User)
+            .HasForeignKey(t => t.UserId)
+            .IsRequired();
 
         modelBuilder
             .Entity<UserAnimal>()
