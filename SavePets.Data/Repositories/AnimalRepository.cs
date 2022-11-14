@@ -91,6 +91,7 @@ namespace SavePets.Data.Repositories
                 _db.Animals.Update(entity);
                 _db.Entry(entity).State = EntityState.Modified;
                 await _db.SaveChangesAsync();
+                _db.Entry(entity).State = EntityState.Detached;
                 await transaction.CommitAsync();
             }
             catch (Exception e)

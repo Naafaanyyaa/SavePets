@@ -45,13 +45,15 @@ namespace SavePets.API.Controllers
         [ProducesResponseType(typeof(PetResponse), StatusCodes.Status201Created)]
         public async Task<IActionResult> Post([FromForm] PetRequest request)
         {
-            var result = await _petService.CreateAsync(request, Request.Form.Files ,Directory.GetCurrentDirectory());
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var result = await _petService.CreateAsync(request, userId, Request.Form.Files ,Directory.GetCurrentDirectory());
             return StatusCode(StatusCodes.Status201Created, result);
         }
 
 
         [HttpPut("edit/{animalId}")]
         [Authorize(Roles = "User")]
+        [ProducesResponseType(typeof(PetResponse), StatusCodes.Status201Created)]
         public async Task<IActionResult> Put(string animalId, UpdateRequest request)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);

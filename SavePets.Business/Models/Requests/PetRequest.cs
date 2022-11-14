@@ -6,8 +6,6 @@ namespace SavePets.Business.Models.Requests
     public class PetRequest
     {
         [Required]
-        public string UserId { set; get; }
-        [Required]
         public string PetsName { set; get; }
         [Required]
         public string Description { set; get; }

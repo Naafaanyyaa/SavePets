@@ -60,13 +60,13 @@ namespace SavePets.Business.Services
             return result;
         }
 
-        public async Task<PetResponse> CreateAsync(PetRequest request, IFormFileCollection files, string directoryToSave)
+        public async Task<PetResponse> CreateAsync(PetRequest request, string UserId,  IFormFileCollection files, string directoryToSave)
         {
-            var owner = await _userManager.FindByIdAsync(request.UserId);
+            var owner = await _userManager.FindByIdAsync(UserId);
 
             if (owner == null)
             {
-                throw new Exception($"{nameof(owner)} with such id {request.UserId} is not found.");
+                throw new Exception($"{nameof(owner)} with such id {UserId} is not found.");
             }
 
             if (request.TelegramUrl == null 
@@ -75,7 +75,7 @@ namespace SavePets.Business.Services
                 && request.ViberUrl == null 
                 && request.Phone == null)
             {
-                throw new Exception($"{nameof(owner)} with such id {request.UserId} tried to create page without any contact information.");
+                throw new Exception($"{nameof(owner)} with such id {UserId} tried to create page without any contact information.");
             }
 
             var date = DateTime.Now;
@@ -185,11 +185,11 @@ namespace SavePets.Business.Services
             contacts.LastModifiedDate = date;
             location.LastModifiedDate = date;
 
-            location.Point = new Point(request.Latitude, request.Longitude) { SRID = 4326 }; 
+            location.Point = new Point(request.Latitude, request.Longitude) { SRID = 4326 };
 
-            await _animalRepository.UpdateAsync(animal);
             await _contactsRepository.UpdateAsync(contacts);
             await _locationRepository.UpdateAsync(location);
+            await _animalRepository.UpdateAsync(animal);
 
             var result = _mapper.Map<Animal, PetResponse>(animal);
 

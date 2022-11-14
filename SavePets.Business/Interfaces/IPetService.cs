@@ -13,7 +13,7 @@ namespace SavePets.Business.Interfaces
     {
         Task<List<PetResponse>> GetAllPetsByRequest(PetAllRequest request);
         Task<PetResponse> GetPetById(string requestId);
-        Task<PetResponse> CreateAsync(PetRequest request, IFormFileCollection files, string directoryToSave);
+        Task<PetResponse> CreateAsync(PetRequest request, string UserId, IFormFileCollection files, string directoryToSave);
         Task DeleteByIdAsync(string userId, string animalId);
         Task<PetResponse> UpdateByIdAsync(string Userid, string AnimalId, UpdateRequest request);
     }
