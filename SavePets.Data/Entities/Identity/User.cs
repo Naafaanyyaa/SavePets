@@ -10,5 +10,5 @@ public class User : IdentityUser
     public string? SubscriptionID { get; set; }
     public Subscription? Subscription { get; set; }
     public List<UserRole> UserRoles { get; set; }
-    public List<UserAnimal> UserAnimals { get; set; }
+    public List<Animal> Animals { get; set; }
 }

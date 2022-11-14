@@ -8,6 +8,7 @@ using SavePets.Business.Models.Response;
 namespace SavePets.API.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class LoginController : ControllerBase
     {
@@ -19,7 +20,7 @@ namespace SavePets.API.Controllers
             _loginService = loginService;
         }
 
-        [HttpPost]
+        [HttpPost("[action]")]
         [AllowAnonymous]
         [ProducesResponseType(typeof(RegisterResult), StatusCodes.Status201Created)]
         public async Task<IActionResult> Register([FromBody] RegisterRequest userModel)
@@ -27,11 +28,8 @@ namespace SavePets.API.Controllers
             var result = await _registrationService.RegisterAsync(userModel);
             return StatusCode(StatusCodes.Status201Created, result);
         }
-
+        [HttpPost("[action]")]
         [AllowAnonymous]
-        [HttpPost]
-        [ProducesResponseType(typeof(AuthorizeResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(AuthorizeResponse), StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Login([FromBody] AuthenticateRequest userLogin)
         {
             var result = await _loginService.SignInAsync(userLogin);

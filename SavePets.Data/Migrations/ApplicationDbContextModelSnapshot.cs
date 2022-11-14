@@ -127,6 +127,9 @@ namespace SavePets.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("AnimalType")
+                        .HasColumnType("int");
+
                     b.Property<string>("ContactsId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -144,9 +147,9 @@ namespace SavePets.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Region")
+                    b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -156,63 +159,9 @@ namespace SavePets.Data.Migrations
                     b.HasIndex("LocationId")
                         .IsUnique();
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Animals");
-                });
-
-            modelBuilder.Entity("SavePets.Data.Entities.AnimalPhoto", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("AnimalId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("LastModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("PhotoId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AnimalId");
-
-                    b.HasIndex("PhotoId");
-
-                    b.ToTable("AnimalPhoto");
-                });
-
-            modelBuilder.Entity("SavePets.Data.Entities.AnimalTag", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("AnimalId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("LastModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("TagId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AnimalId");
-
-                    b.HasIndex("TagId");
-
-                    b.ToTable("AnimalTag");
                 });
 
             modelBuilder.Entity("SavePets.Data.Entities.Contacts", b =>
@@ -224,26 +173,21 @@ namespace SavePets.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Facebook")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Instagram")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("LastModifiedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Phone")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Telegram")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Viber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -393,12 +337,16 @@ namespace SavePets.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Location");
+                    b.ToTable("Locations");
                 });
 
             modelBuilder.Entity("SavePets.Data.Entities.Photo", b =>
                 {
                     b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("AnimalId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedDate")
@@ -407,11 +355,13 @@ namespace SavePets.Data.Migrations
                     b.Property<DateTime?>("LastModifiedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("PhotoUri")
+                    b.Property<string>("PhotoPath")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AnimalId");
 
                     b.ToTable("Photo");
                 });
@@ -436,54 +386,6 @@ namespace SavePets.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Subscriptions");
-                });
-
-            modelBuilder.Entity("SavePets.Data.Entities.Tag", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("LastModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("TagName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Tags");
-                });
-
-            modelBuilder.Entity("SavePets.Data.Entities.UserAnimal", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("AnimalId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("LastModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AnimalId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserAnimal");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -536,47 +438,17 @@ namespace SavePets.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("SavePets.Data.Entities.Identity.User", "User")
+                        .WithMany("Animals")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Contacts");
 
                     b.Navigation("Location");
-                });
 
-            modelBuilder.Entity("SavePets.Data.Entities.AnimalPhoto", b =>
-                {
-                    b.HasOne("SavePets.Data.Entities.Animal", "Animals")
-                        .WithMany("AnimalPhotos")
-                        .HasForeignKey("AnimalId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SavePets.Data.Entities.Photo", "Photos")
-                        .WithMany("AnimalPhotos")
-                        .HasForeignKey("PhotoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Animals");
-
-                    b.Navigation("Photos");
-                });
-
-            modelBuilder.Entity("SavePets.Data.Entities.AnimalTag", b =>
-                {
-                    b.HasOne("SavePets.Data.Entities.Animal", "Animals")
-                        .WithMany("AnimalTags")
-                        .HasForeignKey("AnimalId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SavePets.Data.Entities.Tag", "Tags")
-                        .WithMany("AnimalTag")
-                        .HasForeignKey("TagId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Animals");
-
-                    b.Navigation("Tags");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("SavePets.Data.Entities.Identity.User", b =>
@@ -608,32 +480,20 @@ namespace SavePets.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("SavePets.Data.Entities.UserAnimal", b =>
+            modelBuilder.Entity("SavePets.Data.Entities.Photo", b =>
                 {
-                    b.HasOne("SavePets.Data.Entities.Animal", "Animals")
-                        .WithMany("UserAnimals")
+                    b.HasOne("SavePets.Data.Entities.Animal", "Animal")
+                        .WithMany("Photos")
                         .HasForeignKey("AnimalId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SavePets.Data.Entities.Identity.User", "Users")
-                        .WithMany("UserAnimals")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Animals");
-
-                    b.Navigation("Users");
+                    b.Navigation("Animal");
                 });
 
             modelBuilder.Entity("SavePets.Data.Entities.Animal", b =>
                 {
-                    b.Navigation("AnimalPhotos");
-
-                    b.Navigation("AnimalTags");
-
-                    b.Navigation("UserAnimals");
+                    b.Navigation("Photos");
                 });
 
             modelBuilder.Entity("SavePets.Data.Entities.Contacts", b =>
@@ -649,7 +509,7 @@ namespace SavePets.Data.Migrations
 
             modelBuilder.Entity("SavePets.Data.Entities.Identity.User", b =>
                 {
-                    b.Navigation("UserAnimals");
+                    b.Navigation("Animals");
 
                     b.Navigation("UserRoles");
                 });
@@ -660,20 +520,10 @@ namespace SavePets.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SavePets.Data.Entities.Photo", b =>
-                {
-                    b.Navigation("AnimalPhotos");
-                });
-
             modelBuilder.Entity("SavePets.Data.Entities.Subscription", b =>
                 {
                     b.Navigation("User")
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("SavePets.Data.Entities.Tag", b =>
-                {
-                    b.Navigation("AnimalTag");
                 });
 #pragma warning restore 612, 618
         }

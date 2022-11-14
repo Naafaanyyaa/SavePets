@@ -4,6 +4,7 @@ namespace SavePets.Data.Entities;
 
 public class Photo : BaseEntity
 {
-    public string PhotoUri { get; set; }
-    public virtual List<AnimalPhoto> AnimalPhotos { get; set; }
+    public string AnimalId { get; set; }
+    public virtual Animal Animal { get; set; }
+    public string PhotoPath { get; set; }
 }

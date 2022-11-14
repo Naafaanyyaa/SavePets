@@ -4,8 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SavePets.Data.Entities.Identity;
-using Volunteer_Corner.Data.Interfaces;
-using Volunteer_Corner.Data.Repositories;
+using SavePets.Data.Interfaces;
+using SavePets.Data.Repositories;
 
 namespace SavePets.Data;
 
@@ -27,6 +27,10 @@ public static class DataLayerRegistration
 
 
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+        services.AddScoped<IAnimalRepository, AnimalRepository>();
+        services.AddScoped<IContactsRepository, ContactsRepository>();
+        services.AddScoped<ILocationRepository, LocationRepository>();
+
         return services;
     }
 }

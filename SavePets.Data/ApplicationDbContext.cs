@@ -13,7 +13,7 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, string, Identi
     public DbSet<Contacts> Contacts { get; set; }
     public DbSet<Photo> Photo { get; set; }
     public DbSet<Subscription> Subscriptions { get; set; }
-    public DbSet<Tag> Tags { get; set; }
+    public DbSet<Location> Locations { get; set; }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
@@ -32,42 +32,6 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, string, Identi
             .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder
-            .Entity<AnimalTag>()
-            .HasKey(t => t.Id);
-        modelBuilder
-            .Entity<Tag>()
-            .HasMany(t => t.AnimalTag)
-            .WithOne(t => t.Tags)
-            .HasForeignKey(t => t.TagId)
-            .HasPrincipalKey(t => t.Id)
-            .OnDelete(DeleteBehavior.Cascade);
-        modelBuilder
-            .Entity<Animal>()
-            .HasMany(t => t.AnimalTags)
-            .WithOne(t => t.Animals)
-            .HasForeignKey(t => t.AnimalId)
-            .HasPrincipalKey(t => t.Id)
-            .OnDelete(DeleteBehavior.Cascade);
-        modelBuilder
-            .Entity<AnimalPhoto>()
-            .HasKey(t => t.Id);
-        modelBuilder
-            .Entity<Animal>()
-            .HasMany(t => t.AnimalPhotos)
-            .WithOne(t => t.Animals)
-            .HasForeignKey(t => t.AnimalId)
-            .HasPrincipalKey(t => t.Id)
-            .OnDelete(DeleteBehavior.Cascade);
-        modelBuilder
-            .Entity<Photo>()
-            .HasMany(t => t.AnimalPhotos)
-            .WithOne(t => t.Photos)
-            .HasForeignKey(t => t.PhotoId)
-            .HasPrincipalKey(t => t.Id)
-            .OnDelete(DeleteBehavior.Cascade);
-
-
-        modelBuilder
             .Entity<Role>()
             .HasMany(t => t.UserRoles)
             .WithOne(t => t.Role)
@@ -81,20 +45,17 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, string, Identi
             .IsRequired();
 
         modelBuilder
-            .Entity<UserAnimal>()
-            .HasKey(t => t.Id);
+            .Entity<Animal>()
+            .HasMany(t => t.Photos)
+            .WithOne(t => t.Animal)
+            .HasForeignKey(t => t.AnimalId)
+            .OnDelete(DeleteBehavior.Cascade);
+
         modelBuilder
             .Entity<User>()
-            .HasMany(t => t.UserAnimals)
-            .WithOne(t => t.Users)
+            .HasMany(t => t.Animals)
+            .WithOne(t => t.User)
             .HasForeignKey(t => t.UserId)
-            .HasPrincipalKey(t => t.Id)
-            .OnDelete(DeleteBehavior.Cascade);
-        modelBuilder
-            .Entity<Animal>()
-            .HasMany(t => t.UserAnimals)
-            .WithOne(t => t.Animals)
-            .HasForeignKey(t => t.AnimalId)
             .HasPrincipalKey(t => t.Id)
             .OnDelete(DeleteBehavior.Cascade);
 
@@ -111,6 +72,7 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, string, Identi
             .HasOne(t => t.Animal)
             .WithOne(t => t.Location)
             .HasForeignKey<Animal>(t => t.LocationId)
+            .HasPrincipalKey<Location>(t => t.Id)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

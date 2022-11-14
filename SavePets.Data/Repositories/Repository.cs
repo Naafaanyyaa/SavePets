@@ -1,10 +1,11 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
-using SavePets.Data;
+using Microsoft.Extensions.Logging;
+using SavePets.Data.Entities;
 using SavePets.Data.Entities.Abstract;
-using Volunteer_Corner.Data.Interfaces;
+using SavePets.Data.Interfaces;
 
-namespace Volunteer_Corner.Data.Repositories;
+namespace SavePets.Data.Repositories;
 
 public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity
 {
@@ -69,12 +70,12 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEnti
         return query.ToListAsync();
     }
 
-    public Task<TEntity?> GetByIdAsync(string id)
+    public virtual Task<TEntity?> GetByIdAsync(string id)
     {
         return _db.Set<TEntity>().FirstOrDefaultAsync(i => i.Id == id);
     }
 
-    public async Task<TEntity> AddAsync(TEntity entity)
+    public virtual async Task<TEntity> AddAsync(TEntity entity)
     {
         await _db.Set<TEntity>().AddAsync(entity);
         await _db.SaveChangesAsync();
@@ -82,15 +83,20 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEnti
         return entity;
     }
 
-    public async Task UpdateAsync(TEntity entity)
+    public virtual async Task UpdateAsync(TEntity entity)
     {
         _db.Entry(entity).State = EntityState.Modified;
         await _db.SaveChangesAsync();
     }
-
-    public async Task DeleteAsync(TEntity entity)
+    public virtual async Task DeleteAsync(TEntity entity)
     {
         _db.Set<TEntity>().Remove(entity);
+        await _db.SaveChangesAsync();
+    }
+    public virtual async Task DeleteById(string id)
+    {
+        var animal = _db.Set<TEntity>().Single(x => x.Id == id);
+        _db.Remove(animal);
         await _db.SaveChangesAsync();
     }
 }

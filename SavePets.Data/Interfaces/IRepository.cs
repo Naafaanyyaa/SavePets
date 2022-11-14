@@ -1,7 +1,7 @@
 ﻿using System.Linq.Expressions;
 using SavePets.Data.Entities.Abstract;
 
-namespace Volunteer_Corner.Data.Interfaces;
+namespace SavePets.Data.Interfaces;
 
 public interface IRepository<TEntity> where TEntity : BaseEntity
 {
@@ -21,5 +21,6 @@ public interface IRepository<TEntity> where TEntity : BaseEntity
     Task<TEntity?> GetByIdAsync(string id);
     Task<TEntity> AddAsync(TEntity entity);
     Task UpdateAsync(TEntity entity);
+    Task DeleteById(string id);
     Task DeleteAsync(TEntity entity);
 }

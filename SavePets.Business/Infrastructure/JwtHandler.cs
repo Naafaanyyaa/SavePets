@@ -22,7 +22,7 @@ namespace SavePets.Business.Infrastructure
         public SigningCredentials GetSigningCredentials()
         {
 
-            var key = Encoding.UTF8.GetBytes(_jwtSettings["Jwt:Key"]);
+            var key = Encoding.UTF8.GetBytes(_jwtSettings["Key"]);
             var secret = new SymmetricSecurityKey(key);
             return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
         }
@@ -31,8 +31,8 @@ namespace SavePets.Business.Infrastructure
         {
 
             var claims = new List<Claim> {
-                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
-                new Claim(JwtRegisteredClaimNames.Jti, user.Id)
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.NameIdentifier, user.Id)
             };
 
             var roles = await _userManager.GetRolesAsync(user);
@@ -48,8 +48,8 @@ namespace SavePets.Business.Infrastructure
         public JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, List<Claim> claims)
         {
             var tokenOptions = new JwtSecurityToken(
-                issuer: _jwtSettings["Jwt:Issuer"],
-                audience: _jwtSettings["Jwt:Audience"],
+                issuer: _jwtSettings["Issuer"],
+                audience: _jwtSettings["Audience"],
                 claims: claims,
                 expires: DateTime.Now.AddMinutes(120),
                 signingCredentials: signingCredentials);

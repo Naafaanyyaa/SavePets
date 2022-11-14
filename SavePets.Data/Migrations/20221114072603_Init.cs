@@ -6,7 +6,7 @@ using NetTopologySuite.Geometries;
 
 namespace SavePets.Data.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -29,11 +29,11 @@ namespace SavePets.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Telegram = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Instagram = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Facebook = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Viber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Telegram = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Instagram = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Facebook = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Viber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -43,7 +43,7 @@ namespace SavePets.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Location",
+                name: "Locations",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -53,21 +53,7 @@ namespace SavePets.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Location", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Photo",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    PhotoUri = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Photo", x => x.Id);
+                    table.PrimaryKey("PK_Locations", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -83,20 +69,6 @@ namespace SavePets.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Subscriptions", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Tags",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    TagName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Tags", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -116,37 +88,6 @@ namespace SavePets.Data.Migrations
                         name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Animals",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    AnimalName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AnimalDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Region = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsFounded = table.Column<bool>(type: "bit", nullable: false),
-                    LocationId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ContactsId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Animals", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Animals_Contacts_ContactsId",
-                        column: x => x.ContactsId,
-                        principalTable: "Contacts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Animals_Location_LocationId",
-                        column: x => x.LocationId,
-                        principalTable: "Location",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -187,55 +128,39 @@ namespace SavePets.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AnimalPhoto",
+                name: "Animals",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    AnimalId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    PhotoId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    AnimalName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AnimalDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsFounded = table.Column<bool>(type: "bit", nullable: false),
+                    ContactsId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    LocationId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    AnimalType = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AnimalPhoto", x => x.Id);
+                    table.PrimaryKey("PK_Animals", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AnimalPhoto_Animals_AnimalId",
-                        column: x => x.AnimalId,
-                        principalTable: "Animals",
+                        name: "FK_Animals_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AnimalPhoto_Photo_PhotoId",
-                        column: x => x.PhotoId,
-                        principalTable: "Photo",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AnimalTag",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    AnimalId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    TagId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AnimalTag", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AnimalTag_Animals_AnimalId",
-                        column: x => x.AnimalId,
-                        principalTable: "Animals",
+                        name: "FK_Animals_Contacts_ContactsId",
+                        column: x => x.ContactsId,
+                        principalTable: "Contacts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AnimalTag_Tags_TagId",
-                        column: x => x.TagId,
-                        principalTable: "Tags",
+                        name: "FK_Animals_Locations_LocationId",
+                        column: x => x.LocationId,
+                        principalTable: "Locations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -326,41 +251,25 @@ namespace SavePets.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserAnimal",
+                name: "Photo",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     AnimalId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    PhotoPath = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserAnimal", x => x.Id);
+                    table.PrimaryKey("PK_Photo", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserAnimal_Animals_AnimalId",
+                        name: "FK_Photo_Animals_AnimalId",
                         column: x => x.AnimalId,
                         principalTable: "Animals",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UserAnimal_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AnimalPhoto_AnimalId",
-                table: "AnimalPhoto",
-                column: "AnimalId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AnimalPhoto_PhotoId",
-                table: "AnimalPhoto",
-                column: "PhotoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Animals_ContactsId",
@@ -375,14 +284,9 @@ namespace SavePets.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_AnimalTag_AnimalId",
-                table: "AnimalTag",
-                column: "AnimalId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AnimalTag_TagId",
-                table: "AnimalTag",
-                column: "TagId");
+                name: "IX_Animals_UserId",
+                table: "Animals",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -431,24 +335,13 @@ namespace SavePets.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserAnimal_AnimalId",
-                table: "UserAnimal",
+                name: "IX_Photo_AnimalId",
+                table: "Photo",
                 column: "AnimalId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserAnimal_UserId",
-                table: "UserAnimal",
-                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "AnimalPhoto");
-
-            migrationBuilder.DropTable(
-                name: "AnimalTag");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -465,13 +358,7 @@ namespace SavePets.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "UserAnimal");
-
-            migrationBuilder.DropTable(
                 name: "Photo");
-
-            migrationBuilder.DropTable(
-                name: "Tags");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -486,7 +373,7 @@ namespace SavePets.Data.Migrations
                 name: "Contacts");
 
             migrationBuilder.DropTable(
-                name: "Location");
+                name: "Locations");
 
             migrationBuilder.DropTable(
                 name: "Subscriptions");
