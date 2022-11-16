@@ -57,8 +57,8 @@ namespace SavePets.API.Controllers
         public async Task<IActionResult> Put(string animalId, UpdateRequest request)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            await _petService.UpdateByIdAsync(userId, animalId, request);
-            return StatusCode(StatusCodes.Status200OK);
+            var result = await _petService.UpdateByIdAsync(userId, animalId, request);
+            return StatusCode(StatusCodes.Status200OK, result);
         }
 
         [HttpDelete("delete/{animalId}")]
@@ -66,13 +66,9 @@ namespace SavePets.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> DeleteAsync(string animalId)
         {
-
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             await _petService.DeleteByIdAsync(userId, animalId);
             return StatusCode(StatusCodes.Status200OK);
         }
-        //[HttpPatch]
-        //[Authorize(Roles = "User")]
-        //[ProducesResponseType(StatusCodes.Status200OK)]
     }
 }

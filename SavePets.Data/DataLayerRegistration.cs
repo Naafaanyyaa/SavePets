@@ -30,6 +30,7 @@ public static class DataLayerRegistration
         services.AddScoped<IAnimalRepository, AnimalRepository>();
         services.AddScoped<IContactsRepository, ContactsRepository>();
         services.AddScoped<ILocationRepository, LocationRepository>();
+        services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
 
         return services;
     }

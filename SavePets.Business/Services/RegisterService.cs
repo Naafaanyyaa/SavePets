@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using SavePets.Business.Interfaces;
-using SavePets.Business.Models.Enums;
 using SavePets.Business.Models.Requests;
 using SavePets.Business.Models.Response;
 using SavePets.Data.Entities.Identity;
+using SavePets.Data.Enums;
 
 namespace SavePets.Business.Services
 {
@@ -53,7 +53,8 @@ namespace SavePets.Business.Services
                 request.Role switch
                 {
                     RoleEnum.Admin => CustomRoles.AdminRole,
-                    RoleEnum.User => CustomRoles.UserRole
+                    RoleEnum.User => CustomRoles.UserRole,
+                    _ =>CustomRoles.UserRole
                 }
             });
 

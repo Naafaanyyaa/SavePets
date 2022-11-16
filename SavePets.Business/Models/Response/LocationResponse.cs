@@ -6,6 +6,6 @@ namespace SavePets.Business.Models.Response
 {
     public class LocationResponse : BaseResult
     {
-        public Geometry Point { get; set; }
+        public Coordinate[] Point { get; set; }
     }
 }

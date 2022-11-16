@@ -20,7 +20,8 @@ namespace SavePets.Business.Mappings
                 .ForMember(x => x.AnimalDescription, o => o.MapFrom(s => s.Description))
                 .ForMember(x => x.AnimalType, o => o.MapFrom(s => s.AnimalType));
             CreateMap<Contacts, ContactsResponse>();
-            CreateMap<Location, LocationResponse>();
+            CreateMap<Location, LocationResponse>()
+                .ForMember(x => x.Point, o => o.MapFrom(s => s.Point.Coordinates));
             CreateMap<Photo, PhotoResponse>();
             CreateMap<Animal, PetResponse>()
                 .ForMember(x => x.PetsName, o => o.MapFrom(s => s.AnimalName))
@@ -47,6 +48,9 @@ namespace SavePets.Business.Mappings
                 .ForMember(x => x.Viber, o => o.MapFrom(s => s.ViberUrl))
                 .ForMember(x => x.Phone, o => o.MapFrom(s => s.Phone));
             CreateMap<UpdateRequest, Location>();
+
+            CreateMap<UpdateAccountRequest, User>();
+            CreateMap<User, UserResponse>();
         }
     }
 }

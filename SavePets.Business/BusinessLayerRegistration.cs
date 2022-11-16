@@ -21,6 +21,8 @@ public static class BusinessLayerRegistration
         services.AddScoped<IRegistrationService, RegisterService>();
         services.AddScoped<ILoginService, LoginService>();
         services.AddScoped<IPetService, PetService>();
+        services.AddScoped<IAdminService, AdminService>();
+        services.AddScoped<IAccountService, AccountService>();
         services.AddScoped<JwtHandler>();
 
         return services;

@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Controllers\AccountController.cs~RF18d41d0.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
     <PackageReference Include="GeoJSON" Version="2.3.1" />
     <PackageReference Include="GeoJSON.Net" Version="1.2.19" />
@@ -18,6 +22,7 @@
     <PackageReference Include="NetTopologySuite" Version="[2.3.0, 3.0.0-A)" />
     <PackageReference Include="NetTopologySuite.Features" Version="[2.1.0, 3.0.0-A)" />
     <PackageReference Include="NetTopologySuite.IO.GeoJSON4STJ" Version="2.1.1" />
+    <PackageReference Include="PayPal" Version="1.9.1" />
     <PackageReference Include="Serilog.AspNetCore" Version="6.0.1" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="3.1.0" />
     <PackageReference Include="Serilog.Sinks.Seq" Version="5.2.1" />

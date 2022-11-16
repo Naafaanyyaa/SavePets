@@ -1,21 +1,25 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SavePets.Data.Entities;
 using SavePets.Data.Interfaces;
 
 namespace SavePets.Data.Repositories
 {
-    public class LocationRepository : Repository<Location>, ILocationRepository
-
+    public class SubscriptionRepository : Repository<Subscription>, ISubscriptionRepository
     {
-        private readonly ILogger<LocationRepository> _logger;
+        private readonly ILogger<Subscription> _logger;
 
-        public LocationRepository(ApplicationDbContext db, ILogger<LocationRepository> logger) : base(db)
+        public SubscriptionRepository(ApplicationDbContext db, ILogger<Subscription> logger) : base(db)
         {
             _logger = logger;
         }
 
-        public override async Task<Location> AddAsync(Location entity)
+        public override async Task<Subscription> AddAsync(Subscription entity)
         {
             await using var transaction = await _db.Database.BeginTransactionAsync();
             try
@@ -35,24 +39,23 @@ namespace SavePets.Data.Repositories
             return null;
         }
 
-        public override Task<Location?> GetByIdAsync(string id)
+        public override Task<Subscription?> GetByIdAsync(string id)
         {
-            return _db.Locations.AsNoTracking()
-                .Include(x => x.Animal)
+            return _db.Subscriptions.AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public override async Task UpdateAsync(Location entity)
+        public override async Task UpdateAsync(Subscription entity)
         {
 
             await using var transaction = await _db.Database.BeginTransactionAsync();
             try
             {
-                _db.Locations.Update(entity);
+                _db.Subscriptions.Update(entity);
                 _db.Entry(entity).State = EntityState.Modified;
                 await _db.SaveChangesAsync();
-                await transaction.CommitAsync();
                 _db.Entry(entity).State = EntityState.Detached;
+                await transaction.CommitAsync();
             }
             catch (Exception e)
             {

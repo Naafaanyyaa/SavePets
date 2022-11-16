@@ -187,8 +187,9 @@ namespace SavePets.Business.Services
 
             location.Point = new Point(request.Latitude, request.Longitude) { SRID = 4326 };
 
-            await _contactsRepository.UpdateAsync(contacts);
-            await _locationRepository.UpdateAsync(location);
+            animal.Location = location;
+            animal.Contacts = contacts;
+
             await _animalRepository.UpdateAsync(animal);
 
             var result = _mapper.Map<Animal, PetResponse>(animal);

@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using SavePets.Business.Models.Enums;
+using SavePets.Data.Enums;
 
 namespace SavePets.Business.Models.Requests
 {
@@ -12,8 +12,10 @@ namespace SavePets.Business.Models.Requests
         [StringLength(30, MinimumLength = 2)]
         public string Lastname { set; get; } = string.Empty;
         [Required]
+        [StringLength(30, MinimumLength = 8)]
         public string UserName { get; set; } = null!;
         [Required]
+
         public string Email { set; get; } = string.Empty;
         [Required]
         public string? PhoneNumber { get; set; }
