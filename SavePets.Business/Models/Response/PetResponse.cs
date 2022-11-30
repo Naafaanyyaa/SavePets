@@ -7,7 +7,6 @@ namespace SavePets.Business.Models.Response
 {
     public class PetResponse : BaseResult
     {
-        public User User { set; get; }
         public string PetsName { set; get; } = string.Empty;
         public string Description { set; get; } = string.Empty;
         public string LocationId { set; get; }

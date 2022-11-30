@@ -23,6 +23,7 @@ public static class BusinessLayerRegistration
         services.AddScoped<IPetService, PetService>();
         services.AddScoped<IAdminService, AdminService>();
         services.AddScoped<IAccountService, AccountService>();
+        services.AddScoped<IGeoLocation, GeoLocationService>();
         services.AddScoped<JwtHandler>();
 
         return services;

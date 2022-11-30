@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using NetTopologySuite.Geometries;
 using SavePets.Business.Models.Requests;
 using SavePets.Business.Models.Response;
 using SavePets.Data.Entities;
 using SavePets.Data.Entities.Identity;
+using Location = SavePets.Data.Entities.Location;
 
 namespace SavePets.Business.Mappings
 {
@@ -21,7 +23,8 @@ namespace SavePets.Business.Mappings
                 .ForMember(x => x.AnimalType, o => o.MapFrom(s => s.AnimalType));
             CreateMap<Contacts, ContactsResponse>();
             CreateMap<Location, LocationResponse>()
-                .ForMember(x => x.Point, o => o.MapFrom(s => s.Point.Coordinates));
+                .ForMember(x => x.Longitude, o => o.MapFrom(s => s.Point.GetOrdinates(Ordinate.X)))
+                .ForMember(x => x.Latitude, o => o.MapFrom(s => s.Point.GetOrdinates(Ordinate.Y)));
             CreateMap<Photo, PhotoResponse>();
             CreateMap<Animal, PetResponse>()
                 .ForMember(x => x.PetsName, o => o.MapFrom(s => s.AnimalName))
@@ -51,6 +54,7 @@ namespace SavePets.Business.Mappings
 
             CreateMap<UpdateAccountRequest, User>();
             CreateMap<User, UserResponse>();
+            CreateMap<GeoLocationRequest, Location>();
         }
     }
 }
