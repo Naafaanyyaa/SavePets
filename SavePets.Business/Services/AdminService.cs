@@ -85,7 +85,7 @@ namespace SavePets.Business.Services
         {
             var user = await _userManager.FindByIdAsync(UserId);
 
-            user.IsBanned = true;
+            user.IsBanned = !user.IsBanned;
 
             await _userManager.UpdateAsync(user);
 

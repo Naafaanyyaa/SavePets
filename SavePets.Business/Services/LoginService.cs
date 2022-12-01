@@ -33,6 +33,14 @@ namespace SavePets.Business.Services
                 };
             }
 
+            if (user.IsBanned == true)
+            {
+                return new AuthorizeResponse()
+                {
+                    ErrorMessage = "User is banned"
+                };
+            }
+
             var signingCredentials = _jwtHandler.GetSigningCredentials();
             var claims = await _jwtHandler.GetClaimsAsync(user);
             var tokenOptions = _jwtHandler.GenerateTokenOptions(signingCredentials, claims);
