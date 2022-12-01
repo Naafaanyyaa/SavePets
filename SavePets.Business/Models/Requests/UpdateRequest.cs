@@ -14,7 +14,8 @@ namespace SavePets.Business.Models.Requests
         public string PetsName { set; get; }
         [Required]
         public string Description { set; get; }
-        public bool IsFounded { get; set; }
+        [Required]
+        public bool IsFounded { get; set; } = false;
         public string? TelegramUrl { set; get; }
         public string? InstagramUrl { set; get; }
         public string? FacebookUrl { set; get; }

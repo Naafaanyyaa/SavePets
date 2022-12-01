@@ -15,7 +15,7 @@ namespace SavePets.Business.Models.Requests
         [StringLength(30, MinimumLength = 8)]
         public string UserName { get; set; } = null!;
         [Required]
-
+        [EmailAddress]
         public string Email { set; get; } = string.Empty;
         [Required]
         public string? PhoneNumber { get; set; }
