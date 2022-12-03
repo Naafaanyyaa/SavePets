@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using AutoMapper;
 using NetTopologySuite.Geometries;
@@ -27,15 +28,16 @@ namespace SavePets.Business.Services
             _locationRepository = locationRepository;
         }
 
-
-        public async Task<PetResponse> UpdateGeolocation(GeoLocationRequest request)
+        public async Task<PetResponse> UpdateGeolocation(string animalId, GeoLocationRequest geolocation)
         {
-            var animal = await _animalRepository.GetByIdAsync(request.AnimalId);
+
+            var animal = await _animalRepository.GetByIdAsync(animalId);
             
             if (animal == null)
             {
                 throw new Exception("Animal is not found.");
             }
+
             var location = await _locationRepository.GetByIdAsync(animal.LocationId);
 
             if (location == null)
@@ -47,7 +49,7 @@ namespace SavePets.Business.Services
 
             location.LastModifiedDate = date;
 
-            location.Point = new Point(request.Latitude, request.Longitude) { SRID = 4326 };
+            location.Point = new Point(geolocation.Latitude, geolocation.Longitude) { SRID = 4326 };
 
             animal.Location = location;
 

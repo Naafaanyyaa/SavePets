@@ -25,32 +25,12 @@ namespace SavePets.API.Controllers
         }
 
         [Authorize(Roles = "User")]
-        [HttpPost("createRandomLocation/{animalId}")]
+        [HttpPut("createRandomLocation/{animalId}")]
         [ProducesResponseType(typeof(PetResponse), StatusCodes.Status201Created)]
-        public async Task<IActionResult> Update(string animalId)
+        public async Task<IActionResult> Update(string animalId, GeoLocationRequest geoLocation)
         {
-            var request = new GeoLocationRequest()
-            {
-                AnimalId = animalId,
-                Count = new Random().Next(100, 1000),
-                Latitude = new Random().NextDouble(-90.000000, 90.000000),
-                Longitude = new Random().NextDouble(-180.000000, 180.000000),
-                Alt = new Random().NextDouble(1.00, 5000.00),
-            };
-
-            var result = await _geoLocation.UpdateGeolocation(request);
+            var result = await _geoLocation.UpdateGeolocation(animalId, geoLocation);
             return StatusCode(StatusCodes.Status200OK, result);
-        }
-    }
-
-    public static class RandomExtensions
-    {
-        public static double NextDouble(
-            this Random random,
-            double minValue,
-            double maxValue)
-        {
-            return random.NextDouble() * (maxValue - minValue) + minValue;
         }
     }
 }

@@ -10,6 +10,6 @@ namespace SavePets.Business.Interfaces
 {
     public interface IGeoLocation
     {
-        Task<PetResponse> UpdateGeolocation(GeoLocationRequest request);
+        Task<PetResponse> UpdateGeolocation(string animalId, GeoLocationRequest geoLocation);
     }
 }
