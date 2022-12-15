@@ -8,6 +8,6 @@ namespace SavePets.Business.Models.Response
         public string? InstagramUrl { set; get; } = string.Empty;
         public string? FacebookUrl { set; get; } = string.Empty;
         public string? ViberUrl { set; get; } = string.Empty;
-        public string Phone { set; get; } = string.Empty;
+        public string? Phone { set; get; } = string.Empty;
     }
 }

@@ -17,4 +17,8 @@
     <ProjectReference Include="..\SavePets.Data\SavePets.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Exceptions\" />
+  </ItemGroup>
+
 </Project>

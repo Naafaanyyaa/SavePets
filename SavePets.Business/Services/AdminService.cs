@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using SavePets.Business.Exceptions;
 using SavePets.Business.Interfaces;
 using SavePets.Business.Models.Requests;
 using SavePets.Business.Models.Response;
@@ -40,12 +41,12 @@ namespace SavePets.Business.Services
 
             if (user == null)
             {
-                throw new Exception($"User with such id {UserId} is not found");
+                throw new NotFoundException(nameof(user), UserId);
             }
 
             if (usersWithAdminRole.Contains(user))
             {
-                throw new Exception("User with such id has already been admin");
+                throw new ValidationException("User with such id has already been admin");
             }
 
             await _userManager.AddToRolesAsync(user, new List<string>
@@ -64,7 +65,7 @@ namespace SavePets.Business.Services
 
             if (user == null)
             {
-                throw new Exception($"User with such id {id} is not found.");
+                throw new NotFoundException(nameof(user), id);
             }
 
             var result = _mapper.Map<User, UserResponse>(user);
@@ -100,7 +101,7 @@ namespace SavePets.Business.Services
 
             if (animal == null)
             {
-                throw new Exception($"{nameof(animal)} with such id {animalId} is not found.");
+                throw new NotFoundException(nameof(animal), animalId);
             }
 
             await _animalRepository.DeleteAsync(animal);

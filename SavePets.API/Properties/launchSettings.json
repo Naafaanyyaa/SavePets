@@ -4,7 +4,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://192.168.1.6:31133",
+      "applicationUrl": "http://192.168.1.12:31133",
       "sslPort": 0
     }
   },
@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "sqlDebugging": false,
-      "applicationUrl": "http://192.168.1.6:5140",
+      "applicationUrl": "http://192.168.1.12:5140",
       "dotnetRunMessages": true
     },
     "IIS Express": {

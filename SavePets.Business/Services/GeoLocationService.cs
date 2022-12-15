@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using AutoMapper;
 using NetTopologySuite.Geometries;
+using SavePets.Business.Exceptions;
 using SavePets.Business.Interfaces;
 using SavePets.Business.Models.Requests;
 using SavePets.Business.Models.Response;
@@ -35,14 +36,14 @@ namespace SavePets.Business.Services
             
             if (animal == null)
             {
-                throw new Exception("Animal is not found.");
+                throw new NotFoundException(nameof(animal), animalId);
             }
 
             var location = await _locationRepository.GetByIdAsync(animal.LocationId);
 
             if (location == null)
             {
-                throw new Exception("Location is not found.");
+                throw new NotFoundException(nameof(location));
             }
 
             var date = DateTime.Now;

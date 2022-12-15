@@ -29,7 +29,7 @@ namespace SavePets.Business.Services
 
             if (user != null)
             {
-                throw new Exception($"User with such email: {request.Email} is already exists.");
+                throw new ValidationException($"User with such email: {request.Email} is already exists.");
             }
 
             user = await _userManager.FindByNameAsync(request.UserName);
@@ -37,7 +37,7 @@ namespace SavePets.Business.Services
 
             if (user != null)
             {
-                throw new Exception($"User with such email: {request.UserName} is already exists.");
+                throw new ValidationException($"User with such name: {request.UserName} is already exists.");
             }
 
             user = _mapper.Map<RegisterRequest, User>(request);

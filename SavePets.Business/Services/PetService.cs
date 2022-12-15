@@ -4,6 +4,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using NetTopologySuite.Geometries;
+using SavePets.Business.Exceptions;
 using SavePets.Business.Infrastructure.Expressions;
 using SavePets.Business.Interfaces;
 using SavePets.Business.Models.Requests;
@@ -54,7 +55,7 @@ namespace SavePets.Business.Services
             var source = await _animalRepository.GetByIdAsync(requestId);
 
             if (source == null)
-                throw new Exception($"{nameof(Animal)} with such id {requestId} not found");
+                throw new NotFoundException(nameof(Animal),requestId);
 
             var result = _mapper.Map<Animal, PetResponse>(source);
             return result;
@@ -66,7 +67,7 @@ namespace SavePets.Business.Services
 
             if (owner == null)
             {
-                throw new Exception($"{nameof(owner)} with such id {UserId} is not found.");
+                throw new NotFoundException(nameof(owner), UserId);
             }
 
             if (request.TelegramUrl == null 
@@ -75,7 +76,7 @@ namespace SavePets.Business.Services
                 && request.ViberUrl == null 
                 && request.Phone == null)
             {
-                throw new Exception($"{nameof(owner)} with such id {UserId} tried to create page without any contact information.");
+                throw new ValidationException($"{nameof(owner)} with such id {UserId} tried to create page without any contact information.");
             }
 
             var date = DateTime.Now;
@@ -147,12 +148,12 @@ namespace SavePets.Business.Services
 
             if (animal == null)
             {
-                throw new Exception($"{nameof(animal)} with such id {animalId} is not found.");
+                throw new NotFoundException(nameof(animal), animalId);
             }
 
             if (animal.UserId != userId)
             {
-                throw new Exception($"{nameof(animal)} with such id {animalId} is not found with user with such id {userId}.");
+                throw new NotFoundException($"{nameof(animal)} with such id {animalId} is not found with user with such id {userId}.");
             }
 
             await _animalRepository.DeleteAsync(animal);
@@ -167,12 +168,12 @@ namespace SavePets.Business.Services
 
             if (animal == null || location == null || contacts == null)
             {
-                throw new Exception($"Some of objects is not found.");
+                throw new NotFoundException($"Some of objects is not found.");
             }
 
             if (!animal.UserId.Equals(userId))
             {
-                throw new Exception("UserId is not same in model and Guid");
+                throw new ValidationException("UserId is not same in model and Guid");
             }
 
             animal = _mapper.Map<UpdateRequest, Animal>(request, animal);

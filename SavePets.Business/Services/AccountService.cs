@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using SavePets.Business.Exceptions;
 using SavePets.Business.Interfaces;
 using SavePets.Business.Models.Requests;
 using SavePets.Business.Models.Response;
@@ -30,7 +31,7 @@ namespace SavePets.Business.Services
 
             if (user == null)
             {
-                throw new Exception($"User with such id {userIdFromToken} does not exist.");
+                throw new NotFoundException(nameof(user), userIdFromToken);
             }
 
             await _userManager.DeleteAsync(user);
@@ -42,7 +43,7 @@ namespace SavePets.Business.Services
 
             if (user == null)
             {
-                throw new Exception($"User with such id {userIdFromToken} does not exist.");
+                throw new NotFoundException(nameof(user), userIdFromToken);
             }
 
             user = _mapper.Map<UpdateAccountRequest, User>(accountRequest, user);
@@ -51,14 +52,14 @@ namespace SavePets.Business.Services
 
             if (emailCheck != null && emailCheck.Id != userIdFromToken)
             {
-                throw new Exception($"User with such email {user.Email} exists.");
+                throw new ValidationException($"User with such email {user.Email} exists.");
             }
 
             var userNameCheck = await _userManager.FindByNameAsync(user.UserName);
 
             if (userNameCheck != null && userNameCheck.Id != userIdFromToken)
             {
-                throw new Exception($"User with such name {user.UserName} exists.");
+                throw new ValidationException($"User with such name {user.UserName} exists.");
             }
 
             await _userManager.UpdateAsync(user);
@@ -74,7 +75,7 @@ namespace SavePets.Business.Services
 
             if (user == null)
             {
-                throw new Exception($"User with such id {userId} does not exist.");
+                throw new NotFoundException(nameof(user), userId);
             }
 
             var result = _mapper.Map<User, UserResponse>(user);
