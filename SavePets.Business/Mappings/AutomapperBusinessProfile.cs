@@ -23,7 +23,8 @@ namespace SavePets.Business.Mappings
                 .ForMember(x => x.AnimalType, o => o.MapFrom(s => s.AnimalType));
             CreateMap<Contacts, ContactsResponse>();
             CreateMap<Location, LocationResponse>()
-                .ForMember(x => x.Point, o => o.MapFrom(s => s.Point.AsText()));
+                .ForMember(x => x.Lontitude, o => o.MapFrom(s => s.Point.GetOrdinates(Ordinate.X)[0]))
+                .ForMember(x => x.Latitude, o => o.MapFrom(s => s.Point.GetOrdinates(Ordinate.Y)[0]));
             CreateMap<Photo, PhotoResponse>();
             CreateMap<Animal, PetResponse>()
                 .ForMember(x => x.PetsName, o => o.MapFrom(s => s.AnimalName))

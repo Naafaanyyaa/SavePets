@@ -1,7 +1,9 @@
 public class ValidationException : Exception
 {
-    public ValidationException(<T> ) : base()
-    {
+    public ValidationException() 
+    { }
 
+    public ValidationException(string message) : base(message)
+    {
     }
 }
