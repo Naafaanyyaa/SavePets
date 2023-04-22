@@ -7,7 +7,6 @@ namespace SavePets.Business.Models.Requests
         [Required]
         public string UserName { set; get; } = string.Empty;
         [Required]
-        [StringLength(18, MinimumLength = 8)]
         public string Password { set; get; } = string.Empty;
     }
 }

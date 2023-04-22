@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SavePets.Business.Interfaces;
-using SavePets.Business.Models.Requests;
 using SavePets.Business.Models.Response;
-using SavePets.Data.Entities.Identity;
 
 namespace SavePets.API.Controllers
 {

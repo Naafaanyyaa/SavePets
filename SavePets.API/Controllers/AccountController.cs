@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SavePets.Business.Interfaces;
 using SavePets.Business.Models.Requests;
 using SavePets.Business.Models.Response;
-using SavePets.Data.Entities.Identity;
 
 namespace SavePets.API.Controllers
 {
@@ -25,33 +19,34 @@ namespace SavePets.API.Controllers
         {
             _accountService = accountService;
         }
-        [HttpGet("account-info/")]
+        [HttpGet("get-account/{id}", Name = "get-account")]
         [Authorize(Roles = "User")]
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status201Created)]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get(string id)
         {
+            //TODO: throw error if IP in token and in GET request doesn`t math
             var userIdFromToken = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var result = await _accountService.ProfileInfo(userIdFromToken);
+            var result = await _accountService.ProfileInfo(id);
             return StatusCode(StatusCodes.Status200OK, result);
         }
 
-        [HttpPut("update-account/")]
+        [HttpPut("update-account/{id}", Name = "update-account")]
         [Authorize(Roles = "User")]
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status201Created)]
-        public async Task<IActionResult> Put(UpdateAccountRequest accountRequest)
+        public async Task<IActionResult> Put(string id,UpdateAccountRequest accountRequest)
         {
-            var userIdFromToken = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var result =  await _accountService.UpdateAccountInfoByUser(userIdFromToken, accountRequest);
+            //TODO: throw error if IP in token and in GET request doesn`t math
+            var result =  await _accountService.UpdateAccountInfoByUser(id, accountRequest);
             return StatusCode(StatusCodes.Status200OK, result);
         }
 
-        [HttpDelete("delete/")]
+        [HttpDelete("delete-account/{id}", Name = "delete-account")]
         [Authorize(Roles = "User")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> DeleteAsync()
+        public async Task<IActionResult> DeleteAsync(string id)
         {
-            var userIdFromToken = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            await _accountService.DeleteAccountByUser(userIdFromToken);
+            //TODO: throw error if IP in token and in GET request doesn`t math
+            await _accountService.DeleteAccountByUser(id);
             return StatusCode(StatusCodes.Status200OK);
         }
     }

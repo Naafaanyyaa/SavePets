@@ -18,8 +18,6 @@ namespace SavePets.Business.Models.Requests
         [EmailAddress]
         public string Email { set; get; } = string.Empty;
         [Required]
-        public string? PhoneNumber { get; set; }
-        [Required]
         public string Password { set; get; } = string.Empty;
         public RoleEnum Role { set; get; }
     }

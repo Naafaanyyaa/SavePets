@@ -24,6 +24,7 @@ public static class BusinessLayerRegistration
         services.AddScoped<IAdminService, AdminService>();
         services.AddScoped<IAccountService, AccountService>();
         services.AddScoped<IGeoLocation, GeoLocationService>();
+        services.AddScoped<IPayPalService, PayPalService>();
         services.AddScoped<JwtHandler>();
 
         return services;

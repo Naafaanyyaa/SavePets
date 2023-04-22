@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NetTopologySuite.Algorithm;
 using SavePets.Business.Interfaces;
 using SavePets.Business.Models.Requests;
 using SavePets.Business.Models.Response;
